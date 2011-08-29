@@ -62,8 +62,16 @@
 
   function setScope(scope){ _scope = scope || 'all' }
 
-  document.addEventListener('keydown', dispatch, false);
-  document.addEventListener('keyup', clearModifier, false);
+  // IE support
+  if (document.addEventListener){
+    document.addEventListener('keydown', dispatch, false);
+    document.addEventListener('keyup', clearModifier, false);
+  } else if (document.attachEvent){
+    // use IE's event methods.
+    document.attachEvent('onkeydown', dispatch);
+    document.attachEvent('onkeyup', clearModifier);
+  }
+
   global.key = assignKey;
   global.keyScope = setScope;
 })(this);
